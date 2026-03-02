@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="images/logo.png" />
+    <title>Dibeautypreneur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        margin: 0;
+        padding: 0;
+        background-color: #111;
+        font-family: "Inter", sans-serif;
+        font-weight: 300;
+        display: flex;
+        justify-content: center;
+      }
+
+      .wrapper {
+        width: 100%;
+        max-width: 768px;
+        margin-bottom: min(10vh, 200px);
+      }
+
+      .gallery {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 0px; /* Prevent images from hiding behind sticky bar */
+      }
+
+      .gallery img {
+        width: 100%;
+        height: auto;
+        display: block;
+        margin-bottom: 0px;
+        opacity: 0;
+        transform: translateY(0px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+        border-radius: 0px;
+      }
+
+      .gallery img.loaded {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* 🔥 Sticky Bottom Section */
+      /* ================= BRAND TOKENS ================= */
+
+      :root {
+        --deep-green: #0f5132;
+        --dark-green: #18392b;
+        --gold: #ffd700;
+        --gold-soft: #f2c94c;
+      }
+
+      /* ================= STICKY BAR ================= */
+
+      .sticky-bar {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        max-width: 768px;
+
+        height: 10vh;
+        max-height: 200px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        /* ✅ luxury gradient */
+        background: linear-gradient(
+          180deg,
+          rgba(15, 81, 50, 0.85),
+          rgba(24, 57, 43, 0.95)
+        );
+
+        backdrop-filter: blur(12px);
+
+        box-shadow:
+          0 -8px 40px rgba(0, 0, 0, 0.35),
+          0 -1px 0 rgba(255, 215, 0, 0.15);
+
+        border-top: 1px solid rgba(255, 215, 0, 0.15);
+      }
+
+      /* ================= CTA BUTTON ================= */
+
+      .cta-button {
+        padding: 16px 34px;
+        font-size: 17px;
+        font-family: "Inter", sans-serif;
+        font-weight: 500; /* Semi-bold for CTA */
+        color: #0a2f1e;
+
+        background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+
+        border: none;
+        border-radius: 999px;
+
+        cursor: pointer;
+
+        letter-spacing: 0.02em;
+
+        transition:
+          transform 0.35s cubic-bezier(0.4, 0, 0.6, 1),
+          box-shadow 0.35s cubic-bezier(0.4, 0, 0.6, 1);
+      }
+
+      /* ✨ cinematic hover (expand instead of translate) */
+      .cta-button:hover {
+        transform: scale(1.06);
+
+        box-shadow:
+          0 18px 42px rgba(255, 215, 0, 0.45),
+          0 8px 22px rgba(0, 0, 0, 0.35);
+      }
+
+      /* subtle press */
+      .cta-button:active {
+        transform: scale(1.02);
+      }
+
+      /* Center sticky bar like gallery */
+      .sticky-container {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="gallery" id="gallery"></div>
+    </div>
+
+    <div class="sticky-container">
+      <div class="sticky-bar">
+        <button class="cta-button">Enroll Now</button>
+      </div>
+    </div>
+
+    <script>
+      const images = [
+        "images3/dibeautypreneur_s1_hero_00000.webp",
+        "images3/dibeautypreneur_s2_risk_00000.webp",
+        "images3/dibeautypreneur_s3_prblm_00000.webp",
+        "images3/dibeautypreneur_s4_soln_00000.webp",
+        "images3/dibeautypreneur_s5_cert_fnl_00000.webp",
+        "images3/dibeautypreneur_s6_supp_00000.webp",
+        "images3/dibeautypreneur_s7_ablty_00000.webp",
+        "images3/dibeautypreneur_s8_prf_00000.webp",
+        "images3/dibeautypreneur_s9_mtrl_00000.webp",
+        "images3/dibeautypreneur_s10_promo_00000.webp",
+        "images3/dibeautypreneur_s11_cta_00000.webp",
+      ];
+
+      const gallery = document.getElementById("gallery");
+
+      images.forEach((src) => {
+        const img = document.createElement("img");
+        img.src = src;
+        img.loading = "lazy";
+
+        img.onload = () => {
+          img.classList.add("loaded");
+        };
+
+        gallery.appendChild(img);
+      });
+    </script>
+  </body>
+</html>
