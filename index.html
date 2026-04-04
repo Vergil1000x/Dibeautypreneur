@@ -1,188 +1,440 @@
 <!doctype html>
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="images/logo.png" />
     <title>Dibeautypreneur</title>
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Styles -->
     <style>
+      :root {
+        --bg: #111;
+        --gold: #ffd700;
+        --gold-soft: #f2c94c;
+      }
+
       body {
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
         margin: 0;
-        padding: 0;
-        background-color: #111;
         font-family: "Inter", sans-serif;
         font-weight: 300;
+        letter-spacing: 0.5px;
+        background: var(--bg);
         display: flex;
         justify-content: center;
       }
 
       .wrapper {
-        width: 100%;
         max-width: 768px;
-        margin-bottom: min(10vh, 200px);
+        width: 100%;
       }
 
       .gallery {
-        width: 100%;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        padding-bottom: 0px; /* Prevent images from hiding behind sticky bar */
       }
 
       .gallery img {
         width: 100%;
-        height: auto;
-        display: block;
-        margin-bottom: 0px;
         opacity: 0;
-        transform: translateY(0px);
-        transition:
-          opacity 0.6s ease,
-          transform 0.6s ease;
-        border-radius: 0px;
+        transition: opacity 0.6s ease;
       }
 
       .gallery img.loaded {
         opacity: 1;
-        transform: translateY(0);
       }
 
-      /* 🔥 Sticky Bottom Section */
-      /* ================= BRAND TOKENS ================= */
-
-      :root {
-        --deep-green: #0f5132;
-        --dark-green: #18392b;
-        --gold: #ffd700;
-        --gold-soft: #f2c94c;
-      }
-
-      /* ================= STICKY BAR ================= */
-
-      .sticky-bar {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        max-width: 768px;
-
-        height: 10vh;
-        max-height: 200px;
-
+      /* Horizontal Slider */
+      .horizontal-scroll {
         display: flex;
-        justify-content: center;
-        align-items: center;
-
-        /* ✅ luxury gradient */
-        background: linear-gradient(
-          180deg,
-          rgba(15, 81, 50, 0.85),
-          rgba(24, 57, 43, 0.95)
-        );
-
-        backdrop-filter: blur(12px);
-
-        box-shadow:
-          0 -8px 40px rgba(0, 0, 0, 0.35),
-          0 -1px 0 rgba(255, 215, 0, 0.15);
-
-        border-top: 1px solid rgba(255, 215, 0, 0.15);
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
       }
 
-      /* ================= CTA BUTTON ================= */
+      .horizontal-scroll img {
+        flex: 0 0 100%;
+        scroll-snap-align: start;
+      }
 
-      .cta-button {
-        padding: 16px 34px;
-        font-size: 17px;
-        font-family: "Inter", sans-serif;
-        font-weight: 500; /* Semi-bold for CTA */
+      .horizontal-scroll::-webkit-scrollbar {
+        display: none;
+      }
+
+      #gallery_horizontal_wrapper {
+        position: relative;
+        padding-bottom: 70px;
+        background-color: #033908;
+      }
+
+      #gallery_horizontal_wrapper::before,
+      #gallery_horizontal_wrapper::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        width: 40px;
+        height: 100%;
+        z-index: 3;
+        pointer-events: none;
+      }
+
+      #gallery_horizontal_wrapper::before {
+        left: 0;
+        background: linear-gradient(to right, #033908, transparent);
+      }
+
+      #gallery_horizontal_wrapper::after {
+        right: 0;
+        background: linear-gradient(to left, #033908, transparent);
+      }
+
+      /* Navigation */
+      .nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .nav:not(:disabled):hover {
+        transform: translateY(-50%) scale(1.1);
+        background: rgba(0, 0, 0, 0.7);
+      }
+
+      .nav.left {
+        left: 10px;
+      }
+
+      .nav.right {
+        right: 10px;
+      }
+
+      .nav:disabled {
+        opacity: 0.25;
+        cursor: default;
+        pointer-events: none;
+      }
+
+      /* CTA */
+      .cta-wrap {
+        position: absolute;
+        bottom: 16px;
+        left: 50%;
+        translate: -50%;
+      }
+
+      /* 🔥 Apply animation ONLY when not hovered */
+      .cta-wrap:not(:hover) {
+        animation: soft-pulse 2s infinite ease-in-out;
+      }
+
+      .slide-cta {
+        display: inline-block;
+
+        padding: clamp(5px, 1.5vw, 8px) clamp(18px, 3.5vw, 28px);
+        font-size: clamp(14px, 2.5vw, 18px);
+
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+        text-decoration: none;
         color: #0a2f1e;
 
-        background: linear-gradient(135deg, var(--gold), var(--gold-soft));
-
-        border: none;
-        border-radius: 999px;
-
-        cursor: pointer;
-
-        letter-spacing: 0.02em;
-
         transition:
-          transform 0.35s cubic-bezier(0.4, 0, 0.6, 1),
-          box-shadow 0.35s cubic-bezier(0.4, 0, 0.6, 1);
+          transform 0.25s ease,
+          filter 0.25s ease,
+          box-shadow 0.25s ease;
+
+        /* 🔥 animation lives here now */
+        animation: soft-pulse 2s infinite ease-in-out;
       }
 
-      /* ✨ cinematic hover (expand instead of translate) */
-      .cta-button:hover {
-        transform: scale(1.06);
+      .slide-cta:hover {
+        animation: none; /* 🔥 stops pulse cleanly */
 
-        box-shadow:
-          0 18px 42px rgba(255, 215, 0, 0.45),
-          0 8px 22px rgba(0, 0, 0, 0.35);
+        transform: translateY(-1px) scale(1.03);
+        filter: brightness(1.1);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
       }
 
-      /* subtle press */
-      .cta-button:active {
-        transform: scale(1.02);
+      /* Gentle bounce/pulse animation */
+      @keyframes soft-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
       }
 
-      /* Center sticky bar like gallery */
-      .sticky-container {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
+      .form-section {
+        padding: 30px 30px 70px 30px;
+        background: #ffffff;
+        text-align: center;
+      }
+
+      #locationForm {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      #locationForm select,
+      #locationForm input {
+        padding: 14px;
+        border-radius: 10px;
+        border: none;
+        font-size: 14px;
+        outline: none;
+      }
+
+      #locationForm button {
+        margin-top: 10px;
+        padding: 14px;
+        border-radius: 999px;
+        border: none;
+        font-weight: 600;
+        background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+        color: #ffffff;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      #locationForm button:hover {
+        transform: scaleY(1.05);
+      }
+
+      /* Sticky CTA wrapper */
+      #stickyCTAWrapper {
+        position: fixed; /* fixed at viewport bottom */
+        bottom: 16px; /* distance from bottom */
+        left: 50%; /* horizontal center */
+        transform: translateX(-50%); /* center */
+        z-index: 9999; /* above everything */
+        pointer-events: auto; /* ensure clickable */
+      }
+
+      /* Button styling */
+      #stickyCTAWrapper .slide-cta {
+        display: inline-block;
+        padding: clamp(10px, 2vw, 16px) clamp(18px, 4vw, 28px);
+        font-size: clamp(14px, 2.5vw, 18px);
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+        text-decoration: none;
+        color: #0a2f1e;
+        transition:
+          transform 0.25s ease,
+          filter 0.25s ease,
+          box-shadow 0.25s ease;
+        animation: soft-pulse 2s infinite ease-in-out;
+      }
+
+      /* Hover effect */
+      #stickyCTAWrapper .slide-cta:hover {
+        animation: none;
+        transform: translateY(-4px) scale(1.03);
+        filter: brightness(1.1);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      }
+
+      /* Gentle pulse animation */
+      @keyframes soft-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
       }
     </style>
   </head>
+
   <body>
     <div class="wrapper">
-      <div class="gallery" id="gallery"></div>
-    </div>
+      <div id="gallery_pt1" class="gallery"></div>
 
-    <div class="sticky-container">
-      <div class="sticky-bar">
-        <button class="cta-button">Enroll Now</button>
+      <div id="gallery_horizontal_wrapper" class="gallery">
+        <div id="gallery_horizontal" class="horizontal-scroll"></div>
+
+        <button id="prevBtn" class="nav left">‹</button>
+        <button id="nextBtn" class="nav right">›</button>
+
+        <div class="cta-wrap">
+          <a id="slideCTA" class="slide-cta">Explore</a>
+        </div>
+      </div>
+
+      <div id="gallery_pt2" class="gallery"></div>
+      <div class="form-section">
+        <form id="locationForm">
+          <select required>
+            <option value="">Choose your city</option>
+            <option>Jakarta</option>
+            <option>Bali</option>
+            <option>Indonesia</option>
+            <option>Java</option>
+            <option>Temur</option>
+          </select>
+
+          <input type="text" placeholder="Your Name" required />
+          <input type="tel" placeholder="Phone Number" required />
+
+          <button type="submit">Check Availability</button>
+        </form>
+      </div>
+      <div id="gallery_pt3" class="gallery"></div>
+      <!-- Sticky CTA at the bottom of viewport -->
+      <div id="stickyCTAWrapper">
+        <a href="#" class="slide-cta">Book Now</a>
       </div>
     </div>
 
     <script>
-      const images = [
-        "images3/dibeautypreneur_s1_hero_00000.webp",
-        "images3/dibeautypreneur_s2_risk_00000.webp",
-        "images3/dibeautypreneur_s3_prblm_00000.webp",
-        "images3/dibeautypreneur_s4_soln_00000.webp",
-        "images3/dibeautypreneur_s5_cert_fnl_00000.webp",
-        "images3/dibeautypreneur_s6_supp_00000.webp",
-        "images3/dibeautypreneur_s7_ablty_00000.webp",
-        "images3/dibeautypreneur_s8_prf_00000.webp",
-        "images3/dibeautypreneur_s9_mtrl_00000.webp",
-        "images3/dibeautypreneur_s10_promo_00000.webp",
-        "images3/dibeautypreneur_s11_cta_00000.webp",
+      document.getElementById("locationForm").onsubmit = (e) => {
+        e.preventDefault();
+        alert("Form submitted 🚀");
+      };
+
+      /* ================= DATA ================= */
+      const sections = {
+        pt1: [
+          "images2_v2/dibeautypreneur_s1_v2_hero_00000.webp",
+          "images2_v2/dibeautypreneur_s2_v2_about_00000.webp",
+          "images2_v2/dibeautypreneur_s4_v2_soln_00000.webp",
+          "images2_v2/dibeautypreneur_s5_v2_cert_hed_00000.webp",
+        ],
+        horizontal: [
+          "images2_v2/dibeautypreneur_s5_v2_cert_lv1_00000.webp",
+          "images2_v2/dibeautypreneur_s5_v2_cert_lv2_00000.webp",
+          "images2_v2/dibeautypreneur_s5_v2_cert_lv3_00000.webp",
+          "images2_v2/dibeautypreneur_s5_v2_cert_lv4_00000.webp",
+          "images2_v2/dibeautypreneur_s5_v2_cert_lv5_00000.webp",
+        ],
+        pt2: [
+          "images2_v2/dibeautypreneur_s6_v2_supp_00000.webp",
+          "images2_v2/dibeautypreneur_s7_v2_ablty_00000.webp",
+          "images2_v2/dibeautypreneur_s8_v2_prf_00000.webp",
+          "images2_v2/dibeautypreneur_s9_v2_mtrl_00000.webp",
+          "images2_v2/dibeautypreneur_s10_v2_loctn_00000.webp",
+        ],
+        pt3: ["images2_v2/dibeautypreneur_s11_v2_promo_00000.webp"],
+      };
+
+      const slideData = [
+        { text: "Get Level 1 Certification", link: "#lvl1" },
+        { text: "Get Level 2 Certification", link: "#lvl2" },
+        { text: "Get Level 3 Certification", link: "#lvl3" },
+        { text: "Get Level 4 Certification", link: "#lvl4" },
+        { text: "Get Level 5 Certification", link: "#lvl5" },
       ];
 
-      const gallery = document.getElementById("gallery");
-
-      images.forEach((src) => {
+      /* ================= UTIL ================= */
+      const createImage = (src) => {
         const img = document.createElement("img");
         img.src = src;
         img.loading = "lazy";
+        img.decoding = "async";
+        img.onload = () => img.classList.add("loaded");
+        return img;
+      };
 
-        img.onload = () => {
-          img.classList.add("loaded");
-        };
+      const loadSection = (id, images) => {
+        const container = document.getElementById(id);
+        images.forEach((src) => container.appendChild(createImage(src)));
+      };
 
-        gallery.appendChild(img);
-      });
+      /* ================= SLIDER ================= */
+      const slider = {
+        container: document.getElementById("gallery_horizontal"),
+        prev: document.getElementById("prevBtn"),
+        next: document.getElementById("nextBtn"),
+        cta: document.getElementById("slideCTA"),
+        index: 0,
+
+        init() {
+          this.updateUI();
+          this.bindEvents();
+
+          // 🔥 Fix resize bug
+          window.addEventListener("resize", () => {
+            this.scrollTo(this.index, false);
+          });
+        },
+
+        scrollTo(index, smooth = true) {
+          const width = this.container.clientWidth;
+          this.container.scrollTo({
+            left: width * index,
+            behavior: smooth ? "smooth" : "auto",
+          });
+        },
+
+        updateUI() {
+          const data = slideData[this.index];
+          this.cta.textContent = data.text;
+          this.cta.href = data.link;
+
+          this.prev.disabled = this.index === 0;
+          this.next.disabled = this.index === slideData.length - 1;
+        },
+
+        bindEvents() {
+          this.next.onclick = () => {
+            if (this.index < slideData.length - 1) {
+              this.index++;
+              this.scrollTo(this.index);
+              this.updateUI();
+            }
+          };
+
+          this.prev.onclick = () => {
+            if (this.index > 0) {
+              this.index--;
+              this.scrollTo(this.index);
+              this.updateUI();
+            }
+          };
+
+          let timeout;
+          this.container.addEventListener("scroll", () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+              const newIndex = Math.round(
+                this.container.scrollLeft / this.container.clientWidth,
+              );
+
+              if (newIndex !== this.index) {
+                this.index = newIndex;
+                this.updateUI();
+              }
+            }, 80);
+          });
+        },
+      };
+
+      /* ================= INIT ================= */
+      loadSection("gallery_pt1", sections.pt1);
+      loadSection("gallery_horizontal", sections.horizontal);
+      loadSection("gallery_pt2", sections.pt2);
+      loadSection("gallery_pt3", sections.pt3); // 🔥 FIXED
+
+      slider.init();
     </script>
   </body>
 </html>
