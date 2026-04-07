@@ -4,6 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="images/logo.png" />
     <title>Dibeautypreneur</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -15,17 +16,19 @@
 
     <!-- Styles -->
     <style>
+      /* ================= ROOT ================= */
       :root {
         --bg: #111;
-        --gold: #ffd700;
-        --gold-soft: #f2c94c;
+        --gold: #d2ad59;
+        --gold-soft: #e6ce7e;
       }
 
+      /* ================= BASE ================= */
       body {
         margin: 0;
         font-family: "Inter", sans-serif;
         font-weight: 300;
-        letter-spacing: 0.5px;
+        letter-spacing: clamp(0px, calc(100vw * 0.5 / 768), 0.5px);
         background: var(--bg);
         display: flex;
         justify-content: center;
@@ -34,8 +37,10 @@
       .wrapper {
         max-width: 768px;
         width: 100%;
+        background: white;
       }
 
+      /* ================= GALLERY ================= */
       .gallery {
         display: flex;
         flex-direction: column;
@@ -51,7 +56,7 @@
         opacity: 1;
       }
 
-      /* Horizontal Slider */
+      /* ================= HORIZONTAL SCROLL ================= */
       .horizontal-scroll {
         display: flex;
         overflow-x: auto;
@@ -70,14 +75,8 @@
 
       #gallery_horizontal_wrapper {
         position: relative;
-        background-color: #033908;
-        padding-bottom: 50px; /* Default for > 250px */
-      }
-
-      @media (max-width: 300px) {
-        #gallery_horizontal_wrapper {
-          padding-bottom: 40px;
-        }
+        background-color: #084125;
+        padding-bottom: clamp(0px, calc(100vw * 100 / 768), 100px);
       }
 
       #gallery_horizontal_wrapper::before,
@@ -93,21 +92,21 @@
 
       #gallery_horizontal_wrapper::before {
         left: 0;
-        background: linear-gradient(to right, #033908, transparent);
+        background: linear-gradient(to right, #084125, transparent);
       }
 
       #gallery_horizontal_wrapper::after {
         right: 0;
-        background: linear-gradient(to left, #033908, transparent);
+        background: linear-gradient(to left, #084125, transparent);
       }
 
-      /* Navigation */
+      /* ================= NAV ================= */
       .nav {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        width: 42px;
-        height: 42px;
+        width: clamp(0px, calc(100vw * 50 / 768), 50px);
+        height: clamp(0px, calc(100vw * 50 / 768), 50px);
         border-radius: 50%;
         border: none;
         background: rgba(0, 0, 0, 0.5);
@@ -122,11 +121,11 @@
       }
 
       .nav.left {
-        left: 10px;
+        left: clamp(0px, calc(100vw * 10 / 768), 10px);
       }
 
       .nav.right {
-        right: 10px;
+        right: clamp(0px, calc(100vw * 10 / 768), 10px);
       }
 
       .nav:disabled {
@@ -135,151 +134,128 @@
         pointer-events: none;
       }
 
-      /* CTA */
-      .cta-wrap {
-        position: absolute;
-        bottom: 16px;
-        left: 50%;
-        translate: -50%;
-      }
-
-      /* 🔥 Apply animation ONLY when not hovered */
-      .cta-wrap:not(:hover) {
-        animation: soft-pulse 2s infinite ease-in-out;
-      }
-
-      .slide-cta {
+      /* ================= CTA SYSTEM (UNIFIED) ================= */
+      .slide-cta,
+      #locationForm button {
         display: inline-block;
-
-        padding: clamp(2px, 1.5vw, 5px) clamp(3px, 3.5vw, 10px);
-        font-size: clamp(4px, min(1vw, 1vh), 18px);
-        text-align: center;
-
         border-radius: 999px;
-        background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+        border: none;
+        cursor: pointer;
         text-decoration: none;
+
+        background: linear-gradient(135deg, var(--gold), var(--gold-soft));
         color: #0a2f1e;
 
+        transform: scale(1);
         transition:
-          transform 0.25s ease,
-          filter 0.25s ease,
-          box-shadow 0.25s ease;
+          transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+          box-shadow 0.25s ease,
+          filter 0.25s ease;
 
-        /* 🔥 animation lives here now */
-        animation: soft-pulse 2s infinite ease-in-out;
+        animation: soft-pulse 2.5s ease-in-out infinite;
+        animation-play-state: running;
+
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
 
-      .slide-cta:hover {
-        animation: none; /* 🔥 stops pulse cleanly */
-
-        transform: translateY(-1px) scale(1.03);
-        filter: brightness(1.1);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      /* size control */
+      .slide-cta {
+        padding: clamp(0px, calc(100vw * 15 / 768), 15px)
+          clamp(0px, calc(100vw * 30 / 768), 30px);
+        font-size: clamp(0px, calc(100vw * 16 / 768), 16px);
       }
 
-      /* Gentle bounce/pulse animation */
-      @keyframes soft-pulse {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.05);
-        }
+      #locationForm button {
+        margin-top: clamp(0px, calc(100vw * 15 / 768), 15px);
+        padding: clamp(0px, calc(100vw * 10 / 768), 10px)
+          clamp(0px, calc(100vw * 20 / 768), 20px);
+        font-size: clamp(0px, calc(100vw * 15 / 768), 15px);
+        color: #ffffff;
+        font-family: "Inter", sans-serif;
+        font-weight: 300;
+        letter-spacing: clamp(0px, calc(100vw * 0.5 / 768), 0.5px);
       }
 
+      /* interactions */
+      .slide-cta:hover,
+      #locationForm button:hover {
+        animation-play-state: paused;
+        transform: scale(1.05) translateY(-2px);
+        filter: brightness(1.08);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+      }
+
+      .slide-cta:focus-visible,
+      #locationForm button:focus-visible {
+        outline: none;
+        animation-play-state: paused;
+        box-shadow:
+          0 0 0 3px rgba(201, 169, 110, 0.4),
+          0 10px 25px rgba(0, 0, 0, 0.25);
+      }
+
+      .slide-cta:active,
+      #locationForm button:active {
+        transform: scale(0.97);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* ================= CTA WRAPPERS ================= */
+      .cta-wrap {
+        position: absolute;
+        bottom: clamp(0px, calc(100vw * 25 / 768), 25px);
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      #stickyCTAWrapper {
+        position: fixed;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+      }
+
+      /* ================= FORM ================= */
       .form-section {
-        padding: 30px 30px 50px 30px;
+        padding: clamp(0px, calc(100vw * 30 / 768), 30px);
         background: #ffffff;
         text-align: center;
-      }
-
-      @media (max-width: 400px) {
-        .form-section {
-          padding: 10px 10px 20px 10px;
-        }
-        #locationForm select,
-        #locationForm input {
-          padding: 5px;
-        }
       }
 
       #locationForm {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: clamp(0px, calc(100vw * 12 / 768), 12px);
       }
 
       #locationForm select,
       #locationForm input {
-        padding: 14px;
-        border-radius: 10px;
-        border: none;
-        font-size: min(min(3vh, 3vw), 14px);
-        letter-spacing: 1px;
-        font-weight: 200;
+        padding: clamp(0px, calc(100vw * 13 / 768), 13px);
+        border-radius: 100px;
+        border: 1px solid #e5e5e5;
+        font-size: clamp(0px, calc(100vw * 15 / 768), 15px);
         outline: none;
+        transition: 0.2s;
+        font-family: "Inter", sans-serif;
+        font-weight: 300;
+        letter-spacing: clamp(0px, calc(100vw * 0.5 / 768), 0.5px);
       }
 
-      #locationForm button {
-        margin-top: 10px;
-        padding: min(min(3vh, 3vw), 14px);
-        border-radius: 999px;
-        border: none;
-        font-weight: 500;
-        font-size: min(min(3vh, 3vw), 14px);
-        background: linear-gradient(135deg, var(--gold), var(--gold-soft));
-        color: #ffffff;
-        cursor: pointer;
-        transition: transform 0.2s ease;
+      #locationForm select:focus,
+      #locationForm input:focus {
+        border-color: #c9a96e;
+        box-shadow: 0 0 0 2px rgba(201, 169, 110, 0.15);
       }
 
-      #locationForm button:hover {
-        transform: scaleY(1.05);
-      }
-
-      /* Sticky CTA wrapper */
-      #stickyCTAWrapper {
-        position: fixed; /* fixed at viewport bottom */
-        bottom: 16px; /* distance from bottom */
-        left: 50%; /* horizontal center */
-        transform: translateX(-50%); /* center */
-        z-index: 9999; /* above everything */
-        pointer-events: auto; /* ensure clickable */
-      }
-
-      /* Button styling */
-      #stickyCTAWrapper .slide-cta {
-        display: inline-block;
-        padding: clamp(10px, 2vw, 16px) clamp(18px, 4vw, 28px);
-        font-size: clamp(14px, 2.5vw, 18px);
-        border-radius: 999px;
-        background: linear-gradient(135deg, var(--gold), var(--gold-soft));
-        text-decoration: none;
-        color: #0a2f1e;
-        transition:
-          transform 0.25s ease,
-          filter 0.25s ease,
-          box-shadow 0.25s ease;
-        animation: soft-pulse 2s infinite ease-in-out;
-      }
-
-      /* Hover effect */
-      #stickyCTAWrapper .slide-cta:hover {
-        animation: none;
-        transform: translateY(-4px) scale(1.03);
-        filter: brightness(1.1);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-      }
-
-      /* Gentle pulse animation */
+      /* ================= ANIMATION ================= */
       @keyframes soft-pulse {
         0%,
         100% {
           transform: scale(1);
         }
         50% {
-          transform: scale(1.05);
+          transform: scale(1.04);
         }
       }
     </style>
@@ -334,26 +310,26 @@
       /* ================= DATA ================= */
       const sections = {
         pt1: [
-          "images2_v2/dibeautypreneur_s1_v2_hero_00000.webp",
-          "images2_v2/dibeautypreneur_s2_v2_about_00000.webp",
-          "images2_v2/dibeautypreneur_s4_v2_soln_00000.webp",
-          "images2_v2/dibeautypreneur_s5_v2_cert_hed_00000.webp",
+          "dibeautypreneur_s1_v2_hero_00000",
+          "dibeautypreneur_s2_v2_about_00000",
+          "dibeautypreneur_s4_v2_soln_00000",
+          "dibeautypreneur_s5_v2_cert_hed_00000",
         ],
         horizontal: [
-          "images2_v2/dibeautypreneur_s5_v2_cert_lv1_00000.webp",
-          "images2_v2/dibeautypreneur_s5_v2_cert_lv2_00000.webp",
-          "images2_v2/dibeautypreneur_s5_v2_cert_lv3_00000.webp",
-          "images2_v2/dibeautypreneur_s5_v2_cert_lv4_00000.webp",
-          "images2_v2/dibeautypreneur_s5_v2_cert_lv5_00000.webp",
+          "dibeautypreneur_s5_v2_cert_lv1_00000",
+          "dibeautypreneur_s5_v2_cert_lv2_00000",
+          "dibeautypreneur_s5_v2_cert_lv3_00000",
+          "dibeautypreneur_s5_v2_cert_lv4_00000",
+          "dibeautypreneur_s5_v2_cert_lv5_00000",
         ],
         pt2: [
-          "images2_v2/dibeautypreneur_s6_v2_supp_00000.webp",
-          "images2_v2/dibeautypreneur_s7_v2_ablty_00000.webp",
-          "images2_v2/dibeautypreneur_s8_v2_prf_00000.webp",
-          "images2_v2/dibeautypreneur_s9_v2_mtrl_00000.webp",
-          "images2_v2/dibeautypreneur_s10_v2_loctn_00000.webp",
+          "dibeautypreneur_s6_v2_supp_00000",
+          "dibeautypreneur_s7_v2_ablty_00000",
+          "dibeautypreneur_s8_v2_prf_00000",
+          "dibeautypreneur_s9_v2_mtrl_00000",
+          "dibeautypreneur_s10_v2_loctn_00000",
         ],
-        pt3: ["images2_v2/dibeautypreneur_s11_v2_promo_00000.webp"],
+        pt3: ["dibeautypreneur_s11_v2_promo_00000"],
       };
 
       const slideData = [
@@ -365,12 +341,31 @@
       ];
 
       /* ================= UTIL ================= */
-      const createImage = (src) => {
+      const createImage = (name) => {
         const img = document.createElement("img");
-        img.src = src;
+
+        const sources = [
+          `images2_v3/${name}.avif`, // AVIF first
+          `images1_v3/${name}.webp`, // then WebP
+          `images_v3/${name}.png`, // fallback PNG
+        ];
+
+        let index = 0;
+
+        const tryNext = () => {
+          if (index < sources.length) {
+            img.src = sources[index++];
+          }
+        };
+
         img.loading = "lazy";
         img.decoding = "async";
+
+        img.onerror = tryNext; // if fails, try next format
         img.onload = () => img.classList.add("loaded");
+
+        tryNext(); // start with AVIF
+
         return img;
       };
 
