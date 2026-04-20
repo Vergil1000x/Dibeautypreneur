@@ -1,11 +1,24 @@
 <!doctype html>
 
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="logo.ico" />
-    <title>Dibeautypreneur</title>
+    <title>
+      Kursus Bisnis Kecantikan Terbaik di Indonesia | Dibeautypreneur
+    </title>
+
+    <meta
+      name="description"
+      content="Kursus bisnis kecantikan terbaik di Indonesia. Pelajari makeup, skincare, dan strategi marketing untuk meningkatkan omzet bisnis kecantikan Anda."
+    />
+    <meta
+      name="keywords"
+      content="kursus kecantikan, kursus makeup, bisnis kecantikan, beautypreneur, pelatihan MUA, belajar usaha kecantikan"
+    />
+    <meta name="robots" content="index, follow" />
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -48,7 +61,7 @@
         -ms-user-select: none;
 
         -webkit-user-drag: none;
-/*
+        /*
 pointer-events: none;
 */
       }
@@ -275,6 +288,42 @@ pointer-events: none;
   </head>
 
   <body>
+    <div
+      style="
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      "
+    >
+      <h1>Kursus Bisnis Kecantikan Terbaik di Indonesia</h1>
+
+      <h2>Kursus Kecantikan & Bisnis Beautypreneur</h2>
+      <p>
+        Dibeautypreneur adalah platform kursus kecantikan yang membantu Anda
+        belajar makeup, skincare, dan strategi bisnis kecantikan untuk
+        meningkatkan omzet.
+      </p>
+
+      <h2>Belajar Bisnis Kecantikan dari Nol</h2>
+      <p>
+        Pelajari cara mendapatkan pelanggan, meningkatkan penjualan, dan
+        membangun brand kecantikan Anda.
+      </p>
+
+      <h2>Program Kursus</h2>
+      <ul>
+        <li>Kursus makeup profesional</li>
+        <li>Pelatihan bisnis kecantikan</li>
+        <li>Strategi digital marketing</li>
+      </ul>
+    </div>
+
     <div class="wrapper">
       <div id="gallery_pt1" class="gallery"></div>
 
@@ -285,7 +334,7 @@ pointer-events: none;
         <button id="nextBtn" class="nav right">›</button>
 
         <div class="cta-wrap">
-          <a id="slideCTA" class="slide-cta">Explore</a>
+          <a id="slideCTA" class="slide-cta">Lihat Program Kursus</a>
         </div>
       </div>
 
@@ -304,13 +353,13 @@ pointer-events: none;
           <input type="text" placeholder="Your Name" required />
           <input type="tel" placeholder="Phone Number" required />
 
-          <button type="submit">Check Availability</button>
+          <button type="submit">Cek Jadwal & Daftar</button>
         </form>
       </div>
       <div id="gallery_pt3" class="gallery"></div>
       <!-- Sticky CTA at the bottom of viewport -->
       <div id="stickyCTAWrapper">
-        <a href="#" class="slide-cta">Book Now</a>
+        <a href="#" class="slide-cta">Daftar Kursus Sekarang</a>
       </div>
     </div>
 
@@ -348,7 +397,29 @@ pointer-events: none;
       /* ================= UTIL ================= */
       const createImage = (name) => {
         const img = document.createElement("img");
-        img.alt = name;
+        const altMap = {
+          dibeautypreneur_s1_v2_hero_00000:
+            "Kursus bisnis kecantikan terbaik di Indonesia",
+          dibeautypreneur_s2_v2_about_00000:
+            "Tentang Dibeautypreneur kursus beautypreneur",
+          dibeautypreneur_s4_v2_soln_00000: "Solusi belajar bisnis kecantikan",
+          dibeautypreneur_s5_v2_cert_hed_00000: "Sertifikasi kursus kecantikan",
+          dibeautypreneur_s5_v2_cert_lv1_00000:
+            "Kursus kecantikan level 1 dasar",
+          dibeautypreneur_s5_v2_cert_lv2_00000: "Pelatihan makeup profesional",
+          dibeautypreneur_s5_v2_cert_lv3_00000: "Bisnis kecantikan lanjutan",
+          dibeautypreneur_s5_v2_cert_lv4_00000: "Strategi marketing beauty",
+          dibeautypreneur_s5_v2_cert_lv5_00000: "Membangun brand kecantikan",
+          dibeautypreneur_s6_v2_supp_00000: "Support komunitas beautypreneur",
+          dibeautypreneur_s7_v2_ablty_00000: "Skill kursus kecantikan",
+          dibeautypreneur_s8_v2_prf_00000: "Manfaat kursus kecantikan",
+          dibeautypreneur_s9_v2_mtrl_00000: "Materi kursus lengkap",
+          dibeautypreneur_s10_v2_loctn_00000:
+            "Lokasi kursus kecantikan Indonesia",
+          dibeautypreneur_s11_v2_promo_00000: "Promo kursus kecantikan terbaru",
+        };
+
+        img.alt = altMap[name] || "Kursus kecantikan Dibeautypreneur";
 
         const sources = [
           `images2_v3/${name}.avif`, // AVIF first
@@ -411,22 +482,22 @@ pointer-events: none;
           this.cta.textContent = data.text;
           this.cta.href = data.link;
 
-            let isExternal = false;
+          let isExternal = false;
 
-            try {
-              const url = new URL(data.link, window.location.origin);
-              isExternal = url.origin !== window.location.origin;
-            } catch (e) {
-              isExternal = data.link.startsWith("http");
-            }
+          try {
+            const url = new URL(data.link, window.location.origin);
+            isExternal = url.origin !== window.location.origin;
+          } catch (e) {
+            isExternal = data.link.startsWith("http");
+          }
 
-            if (isExternal) {
-              this.cta.target = "_blank";
-              this.cta.rel = "noopener noreferrer";
-            } else {
-              this.cta.removeAttribute("target");
-              this.cta.removeAttribute("rel");
-            }
+          if (isExternal) {
+            this.cta.target = "_blank";
+            this.cta.rel = "noopener noreferrer";
+          } else {
+            this.cta.removeAttribute("target");
+            this.cta.removeAttribute("rel");
+          }
 
           this.prev.disabled = this.index === 0;
           this.next.disabled = this.index === slideData.length - 1;
@@ -453,10 +524,10 @@ pointer-events: none;
           this.container.addEventListener("scroll", () => {
             clearTimeout(timeout);
             timeout = setTimeout(() => {
-            const newIndex = Math.floor(
-              (this.container.scrollLeft + this.container.clientWidth / 2) /
-              this.container.clientWidth
-            );
+              const newIndex = Math.floor(
+                (this.container.scrollLeft + this.container.clientWidth / 2) /
+                  this.container.clientWidth,
+              );
 
               if (newIndex !== this.index) {
                 this.index = newIndex;
@@ -486,7 +557,19 @@ pointer-events: none;
         }
       }
 
-      loadSlides(); 
+      loadSlides();
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Kursus Bisnis Kecantikan",
+        "description": "Pelatihan makeup dan bisnis kecantikan di Indonesia",
+        "provider": {
+          "@type": "Organization",
+          "name": "Dibeautypreneur"
+        }
+      }
     </script>
   </body>
 </html>
