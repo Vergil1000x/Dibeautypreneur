@@ -477,7 +477,7 @@ pointer-events: none;
 
       async function loadSlides() {
         try {
-          const res = await fetch("slides.json");
+          const res = await fetch("index_links.json");
           slideData = await res.json();
 
           slider.init(); // init AFTER data loads
