@@ -48,8 +48,9 @@
         -ms-user-select: none;
 
         -webkit-user-drag: none;
-
-        pointer-events: none; /* 🔥 optional (explained below) */
+/*
+pointer-events: none;
+*/
       }
 
       /* ================= GALLERY ================= */
@@ -344,17 +345,10 @@
         pt3: ["dibeautypreneur_s11_v2_promo_00000"],
       };
 
-      const slideData = [
-        { text: "Get Level 1 Certification", link: "#lvl1" },
-        { text: "Get Level 2 Certification", link: "#lvl2" },
-        { text: "Get Level 3 Certification", link: "#lvl3" },
-        { text: "Get Level 4 Certification", link: "#lvl4" },
-        { text: "Get Level 5 Certification", link: "#lvl5" },
-      ];
-
       /* ================= UTIL ================= */
       const createImage = (name) => {
         const img = document.createElement("img");
+        img.alt = name;
 
         const sources = [
           `images2_v3/${name}.avif`, // AVIF first
@@ -417,6 +411,23 @@
           this.cta.textContent = data.text;
           this.cta.href = data.link;
 
+            let isExternal = false;
+
+            try {
+              const url = new URL(data.link, window.location.origin);
+              isExternal = url.origin !== window.location.origin;
+            } catch (e) {
+              isExternal = data.link.startsWith("http");
+            }
+
+            if (isExternal) {
+              this.cta.target = "_blank";
+              this.cta.rel = "noopener noreferrer";
+            } else {
+              this.cta.removeAttribute("target");
+              this.cta.removeAttribute("rel");
+            }
+
           this.prev.disabled = this.index === 0;
           this.next.disabled = this.index === slideData.length - 1;
         },
@@ -442,9 +453,10 @@
           this.container.addEventListener("scroll", () => {
             clearTimeout(timeout);
             timeout = setTimeout(() => {
-              const newIndex = Math.round(
-                this.container.scrollLeft / this.container.clientWidth,
-              );
+            const newIndex = Math.floor(
+              (this.container.scrollLeft + this.container.clientWidth / 2) /
+              this.container.clientWidth
+            );
 
               if (newIndex !== this.index) {
                 this.index = newIndex;
@@ -461,7 +473,20 @@
       loadSection("gallery_pt2", sections.pt2);
       loadSection("gallery_pt3", sections.pt3); // 🔥 FIXED
 
-      slider.init();
+      let slideData = [];
+
+      async function loadSlides() {
+        try {
+          const res = await fetch("slides.json");
+          slideData = await res.json();
+
+          slider.init(); // init AFTER data loads
+        } catch (err) {
+          console.error("Failed to load slides:", err);
+        }
+      }
+
+      loadSlides(); 
     </script>
   </body>
 </html>
